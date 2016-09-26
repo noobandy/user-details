@@ -1,7 +1,7 @@
 # user-details
 exam preparation code
 ----------------------
-**How to run this code**
+**How to run this code?**
 
 1. install http-server node module as global dependency.
 2. go to project folder and run http-server.
