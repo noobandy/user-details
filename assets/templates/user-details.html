@@ -1,0 +1,171 @@
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<form class="form-horizontal" novalidate name="userDetailsFrom" ng-submit="userDetailsFrom.$valid && $ctrl.save($ctrl.userDetails)">
+			<legend>
+				User Details
+			</legend>
+			<!-- fullname -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.fullName.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.fullName.$valid, 'has-success': userDetailsFrom.fullName.$touched && userDetailsFrom.fullName.$valid}">
+				<label class="col-md-3 control-label">
+					Full Name
+				</label>
+				<div class="col-md-9">
+					<input type="text" name="fullName" class="form-control" required minlength="3" maxlength="25" ng-model="$ctrl.userDetails.fullName">
+					<span class="help-block" ng-messages="userDetailsFrom.fullName.$error">
+						<div ng-message="required">Fullname is required.</div>
+						<div ng-message="minlength">Fullname must be at least 3 characters long.</div>
+						<div ng-message="maxlength">Fullname must not be longer than 25 characters.</div>
+					</span>
+				</div>
+			</div>
+			<!-- sex -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.sex.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.sex.$valid, 'has-success': userDetailsFrom.sex.$touched && userDetailsFrom.sex.$valid}">
+				<label class="col-md-3 control-label">
+					Sex
+				</label>
+				<div class="col-md-9">
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="sex" value="M" required ng-model="$ctrl.userDetails.sex"> Male
+						</label>
+					</div>
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="sex" value="F" required ng-model="$ctrl.userDetails.sex"> Female
+						</label>
+					</div>
+					<span class="help-block" ng-messages="userDetailsFrom.sex.$error">
+						<div ng-message="required">Sex is required.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- dob -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.dob.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.dob.$valid, 'has-success': userDetailsFrom.dob.$touched && userDetailsFrom.dob.$valid}">
+				<label class="col-md-3 control-label">
+					Date of birth
+				</label>
+				<div class="col-md-9">
+					<input type="date" name="dob" class="form-control" required max="{{$ctrl.now}}" ng-model="$ctrl.userDetails.dob">
+					<span class="help-block" ng-messages="userDetailsFrom.dob.$error">
+						<div ng-message="required">Date of birth is required.</div>
+						<div ng-message="max">Date of birth must not be greater that today.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- Email -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.email.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.email.$valid, 'has-success': userDetailsFrom.email.$touched && userDetailsFrom.email.$valid}">
+				<label class="col-md-3 control-label">
+					Email
+				</label>
+				<div class="col-md-9">
+					<input type="email" name="email" class="form-control" required ng-model="$ctrl.userDetails.email">
+					<span class="help-block" ng-messages="userDetailsFrom.email.$error">
+						<div ng-message="required">Email is required.</div>
+						<div ng-message="pattern">Email must be a valid email id.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- username -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.username.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.username.$valid, 'has-success': userDetailsFrom.username.$touched && userDetailsFrom.username.$valid}">
+				<label class="col-md-3 control-label">
+					Username
+				</label>
+				<div class="col-md-9">
+					<input type="text" name="username" class="form-control" required minlength="3" maxlength="15" ng-model="$ctrl.userDetails.username" ud-username-available>
+					<span class="help-block" ng-messages="userDetailsFrom.username.$error">
+						<div ng-message="required">Username is required.</div>
+						<div ng-message="minlength">Username must be at least 3 characters long.</div>
+						<div ng-message="maxlength">Username must not be longer than 15 characters.</div>
+						<div ng-message="udUsernameAvailable">Username is already taken.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- password -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.password.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.password.$valid, 'has-success': userDetailsFrom.password.$touched && userDetailsFrom.password.$valid}">
+				<label class="col-md-3 control-label">
+					Password
+				</label>
+				<div class="col-md-9">
+					<input type="password" name="password" class="form-control" required minlength="8" ng-model="$ctrl.userDetails.password">
+					<span class="help-block" ng-messages="userDetailsFrom.password.$error">
+						<div ng-message="required">Password is required.</div>
+						<div ng-message="minlength">Password must be at least 8 characters long.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- confirm password -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.confirmPassword.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.confirmPassword.$valid, 'has-success': userDetailsFrom.confirmPassword.$touched && userDetailsFrom.confirmPassword.$valid}">
+				<label class="col-md-3 control-label">
+					Confirm Password
+				</label>
+				<div class="col-md-9">
+					<input type="password" name="confirmPassword" class="form-control" required ud-match-value="{{$ctrl.userDetails.password}}" ng-model="$ctrl.userDetails.confirmPassword">
+					<span class="help-block" ng-messages="userDetailsFrom.confirmPassword.$error">
+						<div ng-message="required">Confirm password is required.</div>
+						<div ng-message="udMatchValue">Password doesn't match.</div>
+					</span>
+				</div>
+			</div>
+
+
+			<!-- zip code -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.zip.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.zip.$valid, 'has-success': userDetailsFrom.zip.$touched && userDetailsFrom.zip.$valid}">
+				<label class="col-md-3 control-label">
+					Zip Code 
+				</label>
+				<div class="col-md-9">
+					<input type="text" name="zip" class="form-control" required pattern="[0-9]{6}" ng-model="$ctrl.userDetails.zip">
+					<span class="help-block" ng-messages="userDetailsFrom.zip.$error">
+						<div ng-message="required">Zip code is required.</div>
+						<div ng-message="pattern">Zip code must be a valid 6 digit number.</div>
+					</span>
+				</div>
+			</div>
+
+
+			<!-- country -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.country.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.country.$valid, 'has-success': userDetailsFrom.country.$touched && userDetailsFrom.country.$valid}">
+				<label class="col-md-3 control-label">
+					Country
+				</label>
+				<div class="col-md-9">
+					<select name="country" class="form-control" required ng-model="$ctrl.userDetails.country" ng-options="country.value as country.name for country in $ctrl.countries">
+						<option value="">Select Country</option>
+					</select>
+					<span class="help-block" ng-messages="userDetailsFrom.country.$error">
+						<div ng-message="required">Country is required.</div>
+					</span>
+				</div>
+			</div>
+
+			<!-- bio -->
+			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.bio.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.bio.$valid, 'has-success': userDetailsFrom.bio.$touched && userDetailsFrom.bio.$valid}">
+				<label class="col-md-3 control-label">
+					Bio
+				</label>
+				<div class="col-md-9">
+					<textarea rows="4" name="bio" class="form-control" required minlength="40" maxlength="140" ng-model="$ctrl.userDetails.bio"></textarea>
+					<span class="help-block" ng-messages="userDetailsFrom.bio.$error">
+						<div ng-message="required">Bio is required.</div>
+						<div ng-message="minlength">Bio must be at least 40 characters long.</div>
+						<div ng-message="maxlength">Bio must not be longer than 140 characters.</div>
+					</span>
+				</div>
+			</div>
+			<!-- fullname -->
+			<div class="form-group">
+				<div class="col-md-9 col-md-offset-3">
+					<button type="button" class="btn btn-danger" ng-click="$ctrl.delete($ctrl.userDetails)">Delete</button>
+					<button type="button" class="btn btn-warning" ng-click="$ctrl.reset(userDetailsFrom)">Reset</button>
+					<button type="submit" class="btn btn-primary">Save Details</button>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
