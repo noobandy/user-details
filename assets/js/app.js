@@ -65,13 +65,14 @@
 	  					} else {
 	  						deffered.reject();
 	  					}
-	  			}, 2000);
+	  			}, 1000);
 	  				return deffered.promise;
 	  			};
 	  		}
 	  	};
 	});
 
+	//age filter
 
 	angular.module("UserDetailsApp").filter("age", function($interpolate) {
 		var now = new Date();
@@ -86,6 +87,7 @@
 		}
 	});
 
+	//user colledction
 	angular.module("UserDetailsApp").factory("userCollection", function(collection) {
 		return collection("users", {
 			dob: {
@@ -94,7 +96,41 @@
 		});
 	});
 
-	//
+//reusable navabr component
+	angular.module("UserDetailsApp").component("navbar", {
+		bindings: {
+			brand: '<',
+			menus: "<",
+			inverse: "<?inverse"
+		},
+		templateUrl: "assets/templates/navbar.html",
+		controller : function() {
+			var ctrl = this;
+
+			ctrl.onMenuClick = function(menu) {
+				ctrl.activeMenu = menu;
+			}
+		}
+	});
+
+	//navbar controller
+	angular.module("UserDetailsApp").controller("NavbarController", function() {
+		this.brand = {
+			name: "MKCL",
+			url:"#/",
+			logo: "assets/img/MKCL-Logo.jpg"
+		};
+
+		this.menus = [{
+			name: "Users",
+			url: "#/users"
+		}, {
+			name: "About",
+			url: "#/about"
+		}];
+	});
+
+	//application specific view components
 	angular.module("UserDetailsApp").component("userList", {
 		templateUrl : "assets/templates/users.html",
 		controller: function(userCollection) {
@@ -124,9 +160,16 @@
 					value: "India"
 				}];
 
+				self.alerts = [];
 				self.reset();
 			}
 			
+			this.dismisAlert = function(alert) {
+				var idx = self.alerts.indexOf(alert);
+				if(idx > -1) {
+					self.alerts.splice(idx, 1);
+				}
+			}
 
 			this.reset = function(form) {
 				console.log("Reset: ", form);
@@ -147,9 +190,23 @@
 
 			this.delete = function(userDetails) {
 				console.log("Delete: ", userDetails);
-				//remove from store
-				userCollection.delete(userDetails);
-				$state.go("users");
+				if(userDetails.id) {
+
+					//remove from store
+					userCollection.delete(userDetails);
+					$state.go("users");
+
+					self.alerts.push({
+						type: "Success",
+						message: "Data deleted successfully."
+					});
+				} else {
+
+					self.alerts.push({
+						type: "Error",
+						message: "Opps! no id."
+					});
+				}
 			}
 
 			this.save = function(userDetails) {
@@ -157,6 +214,11 @@
 				//save to store
 
 				userCollection.save(userDetails);
+
+				self.alerts.push({
+					type: "Success",
+					message: "Data saved successfully."
+				});
 			}
 
 			

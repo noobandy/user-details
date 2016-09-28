@@ -1,5 +1,17 @@
 <div class="row">
 	<div class="col-md-6 col-md-offset-3">
+		<div class="alert alert-dismissible" ng-repeat="alert in $ctrl.alerts" ng-class="{'alert-success': alert.type == 'Success','alert-danger': alert.type == 'Error'}">
+			<button type="button" class="close" ng-click="$ctrl.dismisAlert(alert)">
+				<span aria-hidden="true">
+					&times;
+				</span>
+			</button>
+	  		<strong>
+	  			{{alert.type}}
+	  		</strong>
+	  		{{alert.message}}
+  		</div>
+
 		<form class="form-horizontal" novalidate name="userDetailsFrom" ng-submit="userDetailsFrom.$valid && $ctrl.save($ctrl.userDetails)">
 			<legend>
 				User Details
@@ -69,7 +81,7 @@
 			</div>
 
 			<!-- username -->
-			<div class="form-group" ng-class="{'has-error': (userDetailsFrom.username.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.username.$valid, 'has-success': userDetailsFrom.username.$touched && userDetailsFrom.username.$valid}">
+			<div ng-if="!$ctrl.userDetails.id" class="form-group" ng-class="{'has-error': (userDetailsFrom.username.$touched || userDetailsFrom.$submitted) && !userDetailsFrom.username.$valid, 'has-success': userDetailsFrom.username.$touched && userDetailsFrom.username.$valid}">
 				<label class="col-md-3 control-label">
 					Username
 				</label>
